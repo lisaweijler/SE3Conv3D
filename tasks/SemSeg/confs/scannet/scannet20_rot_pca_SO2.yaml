@@ -1,0 +1,41 @@
+Training:
+    log_folder: './logs/scannet20_RotEq_pca_SO2_005_standardmodel_nomixing'
+    num_epochs : 600
+    num_batches : 250
+    pts_per_batch : 750000
+    weight_decay : 0.0001
+    max_lr : 0.005
+    pct_start : 0.05
+    div_factor : 10.0
+    final_div_factor : 1000.0
+    clip_grads : 100.0
+    label_smoothing: 0.2
+    save_models_frequency : 50
+    val_freq : 5
+
+Dataset:
+    dataset : 'scannet20'
+    train_split : 'train'
+    test_split : 'val'
+    train_aug_file : 'confs.scannet.ScanNet_DS_Aug_zfixed'
+    train_aug_color_file : 'confs.scannet.ScanNet_Color_DS_Aug'
+    test_aug_file : 'confs.scannet.ScanNet_DS_Aug_Val'
+    test_aug_color_file : 'None'
+    prob_mix3d : 0.0
+    train_scene_crop_ratio: 0.8
+    train_scene_max_pts: 120000
+    
+Model:
+    model: FPNSegUNetMLPGeluRotEqScanNet
+    max_drop_path : 0.5
+    init_subsample: 0.1
+    output_subsample: 0.1
+    grid_subsamples: [0.2, 0.4, 0.8, 1.6]
+    RefFrames:
+        pca: True
+        neigh_method: 'knn'
+        neigh_kwargs:
+            neigh_k: 16
+        fixed_axis: 2
+        train_n_frames: 1
+        test_n_frames: 1

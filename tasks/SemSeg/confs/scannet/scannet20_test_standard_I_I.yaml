@@ -1,0 +1,13 @@
+
+Testing:
+    num_epochs : 1
+    save_folder: 'scannet20_standard_I_I_big_model_3dV'
+
+Dataset:
+    dataset : 'scannet20'
+    split: 'val'
+    test_aug_file : 'confs.scannet.ScanNet_DS_Aug_Val'
+    #'confs.ScanNet_DS_Aug_Val'
+    #'confs.ScanNet_DS_Aug_Test'
+    test_aug_color_file : 'None'
+    

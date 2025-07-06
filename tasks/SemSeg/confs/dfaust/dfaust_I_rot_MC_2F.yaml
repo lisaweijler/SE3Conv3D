@@ -1,0 +1,34 @@
+Training:
+    log_folder: './logs/dfaust_RotEq_I_OOD_lieconv_2_frames16_small'
+    num_epochs : 150
+    batch_size : 32
+    weight_decay : 0.0001
+    max_lr : 0.005
+    pct_start : 0.05
+    div_factor : 10.0
+    final_div_factor : 1000.0
+    clip_grads : 100.0
+    label_smoothing: 0.2
+    save_models_frequency : 50
+    val_freq : 5
+
+Dataset:
+    dataset : 'dfaust'
+    num_points: 4096
+    train_split : 'train'
+    test_split : 'val'
+    train_aug_file : 'confs.dfaust.DFaust_DS_Aug'
+    test_aug_file : 'confs.dfaust.DFaust_DS_Aug_Val'
+
+    
+Model:
+    model: FPNSegUNetMLPGeluRotEqFAUST
+    max_drop_path : 0.5
+    init_subsample: 0.04
+    output_subsample: 0.04
+    grid_subsamples: [0.05, 0.1, 0.2, 0.4]
+    RefFrames:
+        pca: False
+        fixed_axis: False
+        train_n_frames: 2
+        test_n_frames: 2

@@ -1,0 +1,14 @@
+Testing:
+    num_epochs : 1
+    batch_size : 1
+
+
+    
+
+
+
+Dataset:
+    dataset : 'dfaust'
+    num_points: 4096
+    test_aug_file : 'confs.cvpr24.DFaust_DS_Aug_Val'
+    
