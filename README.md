@@ -39,7 +39,7 @@ pip install smplx=0.1.28
 ```
 
 ## 🚀 Experiments
-A description of how to replicate the experiments from the paper is given below. Note that the `point_cloud_lib` contains all the code for the Feature Pyramid Network (FPN) and that the relevant scripts for making it rotation equivariant are
+A description of how to replicate the experiments from the paper is given below. Note that the `point_cloud_lib` contains all the code for the Feature Pyramid Network (FPN), and that the relevant scripts for making it rotation equivariant are
 - `point_cloud_lib/point_cloud_lib/layers/PNEConvLayerRotEquiv.py`: containing the rot. equivariant convolution layer,
 - `point_cloud_lib/point_cloud_lib/pc/PointcloudRotEquiv.py`: augmenting the standard pointcloud class with SO(3) samples (reference frames),
 - `point_cloud_lib/point_cloud_lib/pc/PointHierarchyRotEquiv.py`: creating the point cloud hierarchy using the rot. equivariant point cloud class.
@@ -62,11 +62,11 @@ data/
 ```
 
 
-For preprocessing the dataset you can use the `preprocess_data/preprocess_DFAUST.py` script. At the top of the script change the path variables `SOURCE_DATA_PATH` and `SAVE_DATA_PATH`.  
+For preprocessing the dataset, you can use the `preprocess_data/preprocess_DFAUST.py` script. At the top of the script, change the path variables `SOURCE_DATA_PATH` and `SAVE_DATA_PATH`.  
 `SOURCE_DATA_PATH` gives the path to your downloaded and unzipped source data contained in the folder "data" described above. 
-`SAVE_DATA_PATH` specifies the location to save the preprocessed data; if it doesn't exist it will be created along with two folders in it named ´train´ and ´test´. We use the DFaust train split for training and the MPI_Limits split for testing on out-of-distribution poses.
+`SAVE_DATA_PATH` specifies the location to save the preprocessed data; if it doesn't exist, it will be created along with two folders in it named ´train´ and ´test´. We use the DFaust train split for training and the MPI_Limits split for testing on out-of-distribution poses.
 
-We use the same preprocessing strategy as [ArtEq](https://github.com/HavenFeng/ArtEq/tree/726287fcba0b8a1306b4370ec91661e236eb1909) and the preprocessing script has been created using functions from that repository.
+We use the same preprocessing strategy as [ArtEq](https://github.com/HavenFeng/ArtEq/tree/726287fcba0b8a1306b4370ec91661e236eb1909), and the preprocessing script has been created using functions from that repository.
 
 #### Training
 To train the rot. equivariant or standard model use the scripts `tasks/SemSeg/train_dfaust_rot.py` or `tasks/SemSeg/train_dfaust_standard.py`, respectively. An example is given here:
