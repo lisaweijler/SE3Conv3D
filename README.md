@@ -1,6 +1,6 @@
 <span align="center">
 <h1> Efficient Continuous Group Convolutions for Local SE(3) Equivariance in 3D Point Clouds</h1>
-![OpenNeRF Teaser]([https://opennerf.github.io/static/images/teaser.png](https://github.com/lisaweijler/se3conv3d-projectpage/blob/main/static/images/teaser_horizontal.jpg))
+
 <a href="https://lisaweijler.github.io/">Lisa Weijler</a>,
 <a href="https://phermosilla.github.io/">Pedro Hermosilla</a>
 
@@ -11,7 +11,7 @@
 
 </span>
 
-
+![SE3Conv3D Teaser]([https://opennerf.github.io/static/images/teaser.png](https://github.com/lisaweijler/se3conv3d-projectpage/blob/main/static/images/teaser_horizontal.jpg)
 ## 🛠️ Installation
 The code was tested using **Python 3.10.12**. 
 
