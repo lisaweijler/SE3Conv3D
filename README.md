@@ -1,15 +1,12 @@
-<span align="center">
-<h1> Efficient Continuous Group Convolutions for Local SE(3) Equivariance in 3D Point Clouds</h1>
+# Efficient Continuous Group Convolutions for Local SE(3) Equivariance in 3D Point Clouds
 ![SE3Conv3D Teaser](https://github.com/lisaweijler/se3conv3d-projectpage/blob/main/static/images/teaser_horizontal.jpg)
-<a href="https://lisaweijler.github.io/">Lisa Weijler</a>,
-<a href="https://phermosilla.github.io/">Pedro Hermosilla</a>
 
-<h3>3DV 2025</h3>
+[Lisa Weijler](https://lisaweijler.github.io/), [Pedro Hermosilla](https://phermosilla.github.io/)
 
-<a href="https://arxiv.org/pdf/2502.07505">Paper</a> |
-<a href="https://lisaweijler.github.io/se3conv3d-projectpage/">Project Page</a> 
+##3DV 2025
 
-</span>
+[Paper](https://arxiv.org/pdf/2502.07505) | [Project Page](https://lisaweijler.github.io/se3conv3d-projectpage/)
+
 
 
 ## 🛠️ Installation
