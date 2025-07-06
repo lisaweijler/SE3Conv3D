@@ -11,7 +11,7 @@
 
 </span>
 
-![SE3Conv3D Teaser]([https://github.com/lisaweijler/se3conv3d-projectpage/blob/main/static/images/teaser_horizontal.jpg])
+![SE3Conv3D Teaser](https://github.com/lisaweijler/se3conv3d-projectpage/blob/main/static/images/teaser_horizontal.jpg)
 ## 🛠️ Installation
 The code was tested using **Python 3.10.12**. 
 
