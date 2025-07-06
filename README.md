@@ -3,7 +3,7 @@
 
 [Lisa Weijler](https://lisaweijler.github.io/), [Pedro Hermosilla](https://phermosilla.github.io/)
 
-##3DV 2025
+## 3DV 2025
 
 [Paper](https://arxiv.org/pdf/2502.07505) | [Project Page](https://lisaweijler.github.io/se3conv3d-projectpage/)
 
