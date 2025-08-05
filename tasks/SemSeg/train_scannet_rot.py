@@ -23,9 +23,7 @@ torch.set_num_threads(MAX_NUM_THREADS)
 
 
 ############## DATA LOADERS
-def create_data_loaders(
-    p_ds_dict, p_num_batches=None, p_pts_per_batch=None, p_batch_size=None
-):
+def create_data_loaders(p_ds_dict, p_num_batches, p_pts_per_batch, p_data_folder):
 
     if "scannet" in p_ds_dict["dataset"]:
 
@@ -47,7 +45,7 @@ def create_data_loaders(
             aug_color_test = None
 
         trainds = pclib.data_sets.loaders.ScanNetDS(
-            p_data_folder="/data/databases/scannet_p",
+            p_data_folder=p_data_folder,
             p_dataset=p_ds_dict["dataset"],
             p_augmentation_cfg=aug_train.DS_AUGMENTS if not aug_train is None else [],
             p_augmentation_color_cfg=(
@@ -79,7 +77,7 @@ def create_data_loaders(
         )
 
         testds = pclib.data_sets.loaders.ScanNetDS(
-            p_data_folder="/data/databases/scannet_p",
+            p_data_folder=p_data_folder,
             p_dataset=p_ds_dict["dataset"],
             p_augmentation_cfg=aug_test.DS_AUGMENTS if not aug_test is None else [],
             p_augmentation_color_cfg=(
@@ -100,60 +98,19 @@ def create_data_loaders(
         num_classes = 21
         num_in_feats = 3
         mask_classes = [0]
+
         return trainds, traindl, testds, testdl, num_classes, num_in_feats, mask_classes
-
-    if "dfaust" in p_ds_dict["dataset"]:
-
-        if not p_ds_dict["train_aug_file"] == "None":
-            aug_train = importlib.import_module(p_ds_dict["train_aug_file"])
-        else:
-            aug_train = None
-        if not p_ds_dict["test_aug_file"] == "None":
-            aug_test = importlib.import_module(p_ds_dict["test_aug_file"])
-        else:
-            aug_test = None
-
-        trainds = pclib.data_sets.loaders.DFaustDS(
-            p_data_folder="/data/databases/dfaust",
-            p_augmentation_cfg=aug_train.DS_AUGMENTS if not aug_train is None else [],
-            p_num_pts=p_ds_dict["num_points"],
-            p_split=p_ds_dict["train_split"],
+    else:
+        raise NotImplementedError(
+            "Data set {:s} not implemented".format(p_ds_dict["dataset"])
         )
-
-        traindl = DataLoader(
-            trainds,
-            batch_size=p_batch_size,
-            collate_fn=pclib.data_sets.loaders.DFaust_Collate.collate,
-            num_workers=3,
-        )
-
-        testds = pclib.data_sets.loaders.DFaustDS(
-            p_data_folder="/data/databases/dfaust",
-            p_augmentation_cfg=aug_test.DS_AUGMENTS if not aug_test is None else [],
-            p_num_pts=p_ds_dict["num_points"],
-            p_split=p_ds_dict["test_split"],
-        )
-
-        testdl = DataLoader(
-            testds,
-            batch_size=1,
-            shuffle=False,
-            drop_last=False,
-            collate_fn=pclib.data_sets.loaders.DFaust_Collate.collate,
-            num_workers=3,
-        )
-
-        num_classes = 22
-        num_in_feats = 1
-
-        return trainds, traindl, testds, testdl, num_classes, num_in_feats
 
 
 ############## MODEL
 def create_model(p_model_dict, p_num_classes, p_num_in_feats, p_param):
     spec = importlib.util.spec_from_file_location(
         "models",
-        "/caa/Homes01/lweijler/phd/point_clouds/point_clouds_nn/Tasks_Rot_Equiv/SemSeg/seg_models.py",
+        "tasks/SemSeg/seg_models.py",
     )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -167,11 +124,7 @@ def create_model(p_model_dict, p_num_classes, p_num_in_feats, p_param):
     if p_param is None:
         model.cuda(device=GPU_ID)
     else:
-        model = model_class(
-            p_num_in_feats=p_num_in_feats,
-            p_num_out_classes=p_num_classes,
-            p_max_path_drop=p_model_dict["max_drop_path"],
-        )
+
         model.cuda(device=GPU_ID)
         model.load_state_dict(p_param)
 
@@ -476,10 +429,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train Sematic segmentation")
     parser.add_argument(
         "--conf_file",
-        default="/caa/Homes01/lweijler/phd/point_clouds/point_clouds_nn/Tasks_Rot_Equiv/SemSeg/confs/cvpr24/scannet20_rot_2F.yaml",
-        help="Configuration file (default: confs/scannet20.yaml)",
+        default="confs/scannet/dfaust_I_rot_pca_2F.yaml",
+        help="Configuration file (default: confs/scannet/dfaust_I_rot_pca_2F.yaml)",
     )
-    parser.add_argument("--gpu", type=int, default=1, help="GPU Id (default: 0)")
+    parser.add_argument(
+        "--data_folder",
+        default="/data/databases/scannet_p",
+        help="Path to preprocessed data folder (default: /data/databases/scannet_p)",
+    )
+    parser.add_argument("--gpu", type=int, default=0, help="GPU Id (default: 0)")
     parser.add_argument(
         "--mix_prec",
         dest="mix_prec",
@@ -507,20 +465,12 @@ if __name__ == "__main__":
 
     # Init WandB
     wandb.init(
-        entity="cvl-myeflow",
-        project="3DV25",
+        entity="your_entity",  # replace with your WandB entity
+        project="SE3Conv3D",
         group="semseg_" + dataset_dict["dataset"],
         name=train_dict["log_folder"].split("/")[-1],
         config={**train_dict, **dataset_dict, **model_dict},
     )
-
-    # wandb.init(
-    #     entity="your_entity",  # replace with your WandB entity
-    #     project="SE3Conv3D",
-    #     group="semseg_" + dataset_dict["dataset"],
-    #     name=train_dict["log_folder"].split("/")[-1],
-    #     config={**train_dict, **dataset_dict, **model_dict},
-    # )
     print()
 
     # Create the log folder.
@@ -541,6 +491,7 @@ if __name__ == "__main__":
             p_ds_dict=dataset_dict,
             p_num_batches=train_dict["num_batches"],
             p_pts_per_batch=train_dict["pts_per_batch"],
+            p_data_folder=args.data_folder,
         )
     )
     end_data_time = current_milli_time()
@@ -565,13 +516,7 @@ if __name__ == "__main__":
     # Create the model.
     start_model_time = current_milli_time()
     model, param_count = create_model(model_dict, num_cls, num_in_feats, params)
-    # use several gpus
-    # sync_bn_network = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
-    # torch.nn.DataParallel(sync_bn_network, device_ids=[4,5])
-    # ddp_sync_bn_network = torch.nn.parallel.DistributedDataParallel(
-    #    model,
-    # >>>                         device_ids=[args.local_rank],
-    # >>>                         output_device=args.local_rank)
+
     end_model_time = current_milli_time()
     print(
         "### Model {:s} Created ({:d} params) {:.2f} ms".format(

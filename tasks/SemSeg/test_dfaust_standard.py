@@ -56,7 +56,7 @@ def create_model(p_model_dict, p_num_classes, p_num_in_feats, p_param_list):
     # Load model class.
     spec = importlib.util.spec_from_file_location(
         "models",
-        "/caa/Homes01/lweijler/phd/point_clouds/published_repos/SE3Conv3D/tasks/SemSeg/seg_models.py",
+        "tasks/SemSeg/seg_models.py",
     )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -169,7 +169,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Test Sematic segmentation DFaust")
     parser.add_argument(
         "--conf_file",
-        default="/caa/Homes01/lweijler/phd/point_clouds/published_repos/SE3Conv3D/tasks/SemSeg/confs/dfaust/dfaust_test.yaml",
+        default="confs/dfaust/dfaust_test.yaml",
         help="Configuration file (default: confs/dfaust/dfaust_test.yaml)",
     )
 

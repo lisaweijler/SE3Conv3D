@@ -17,13 +17,13 @@ current_milli_time = lambda: time.time() * 1000.0
 
 MAX_NUM_THREADS = 4
 GPU_ID = 0
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
 
 torch.set_num_threads(MAX_NUM_THREADS)
 
 
 ############## DATA LOADERS
-def create_data_loaders(p_ds_dict):
+def create_data_loaders(p_ds_dict, p_data_folder):
 
     if "scannet" in p_ds_dict["dataset"]:
 
@@ -37,7 +37,7 @@ def create_data_loaders(p_ds_dict):
             aug_color_test = None
 
         testds = pclib.data_sets.loaders.ScanNetDS(
-            p_data_folder="/data/databases/scannet_p",
+            p_data_folder=p_data_folder,  # "/data/databases/scannet_p",
             p_dataset=p_ds_dict["dataset"],
             p_augmentation_cfg=aug_test.DS_AUGMENTS if not aug_test is None else [],
             p_augmentation_color_cfg=(
@@ -61,7 +61,12 @@ def create_data_loaders(p_ds_dict):
         mask_classes = [0]
         use_segments = True
 
-    return testds, testdl, num_classes, num_in_feats, mask_classes, use_segments
+        return testds, testdl, num_classes, num_in_feats, mask_classes, use_segments
+    else:
+
+        raise NotImplementedError(
+            "Dataset {:s} not implemented".format(p_ds_dict["dataset"])
+        )
 
 
 ############## MODEL
@@ -69,7 +74,7 @@ def create_model(p_model_dict, p_num_classes, p_num_in_feats, p_param_list):
     # Load model class.
     spec = importlib.util.spec_from_file_location(
         "models",
-        "/caa/Homes01/lweijler/phd/point_clouds/point_clouds_nn/Tasks_Rot_Equiv/SemSeg/seg_models.py",
+        "tasks/SemSeg/seg_models.py",
     )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -203,16 +208,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Test Sematic segmentation")
     parser.add_argument(
         "--conf_file",
-        default="/caa/Homes01/lweijler/phd/point_clouds/point_clouds_nn/Tasks_Rot_Equiv/SemSeg/confs/cvpr24/eccv_resubmission/scannet20_test_rot_I_SO2.yaml",
-        help="Configuration file (default: confs/modelnet40.yaml)",
+        default="confs/scannet/scannet20_test_pca_I_SO2.yaml",
+        help="Configuration file (default: confs/scannet/scannet20_test_pca_I_SO2.yaml)",
     )
     parser.add_argument(
-        "--saved_model",
-        default="/caa/Homes01/lweijler/phd/point_clouds/point_clouds_nn/Tasks_Rot_Equiv/SemSeg/logs/scannet20_RotEq_pca_I_005_newsetup/20240305-150158/best.pth",
-        help="Saved model (default: model.pth)",
+        "--data_folder",
+        default="/data/databases/scannet_p",
+        help="Path to preprocessed data folder (default: /data/databases/scannet_p)",
+    )
+    parser.add_argument(
+        "--saved_model", default="", help="Saved model (default: model.pth)"
     )
     parser.add_argument("--gpu", type=int, default=0, help="GPU Id (default: 0)")
-    parser.add_argument("--no_metrics", dest="metrics", action="store_false")
     parser.add_argument("--save_output", dest="save_output", action="store_true")
     args = parser.parse_args()
 
@@ -229,7 +236,7 @@ if __name__ == "__main__":
     # Create the data loaders.
     start_data_time = current_milli_time()
     testds, testdl, num_cls, num_in_feats, mask_cls, use_segments = create_data_loaders(
-        p_ds_dict=dataset_dict
+        p_ds_dict=dataset_dict, p_data_folder=args.data_folder
     )
     end_data_time = current_milli_time()
     print(

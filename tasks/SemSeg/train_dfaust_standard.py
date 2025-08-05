@@ -53,7 +53,7 @@ def create_data_loaders(p_ds_dict, p_batch_size, p_data_folder):
         )
 
         testds = pclib.data_sets.loaders.DFaustDS(
-            p_data_folder=p_data_folder,  # "/data/lweijler/SE3Conv3D/dfaust",
+            p_data_folder=p_data_folder,
             p_augmentation_cfg=aug_test.DS_AUGMENTS if not aug_test is None else [],
             p_num_pts=p_ds_dict["num_points"],
             p_split=p_ds_dict["test_split"],
@@ -79,7 +79,7 @@ def create_data_loaders(p_ds_dict, p_batch_size, p_data_folder):
 def create_model(p_model_dict, p_num_classes, p_num_in_feats):
     spec = importlib.util.spec_from_file_location(
         "models",
-        "/caa/Homes01/lweijler/phd/point_clouds/published_repos/SE3Conv3D/tasks/SemSeg/seg_models.py",
+        "tasks/SemSeg/seg_models.py",
     )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -408,7 +408,7 @@ if __name__ == "__main__":
         default="/data/lweijler/SE3Conv3D/dfaust",
         help="Path to preprocessed data folder (default: /data/lweijler/SE3Conv3D/dfaust)",
     )
-    parser.add_argument("--gpu", type=int, default=5, help="GPU Id (default: 0)")
+    parser.add_argument("--gpu", type=int, default=0, help="GPU Id (default: 0)")
 
     parser.add_argument(
         "--resume",

@@ -71,11 +71,11 @@ We use the same preprocessing strategy as [ArtEq](https://github.com/HavenFeng/A
 #### Training
 To train the rot. equivariant or standard model use the scripts `tasks/SemSeg/train_dfaust_rot.py` or `tasks/SemSeg/train_dfaust_standard.py`, respectively. An example is given here:
 ```bash
-python train_dfaust_rot.py -conf_file confs/dfaust/dfaust_I_rot_pca_2F.yaml --gpu 0
+python train_dfaust_rot.py -conf_file confs/dfaust/dfaust_I_rot_pca_2F.yaml --data_folder path/to/your/rootdatafolder --gpu 0
 ```
 
 ```bash
-python train_dfaust_standard.py --conf_file confs/dfaust/dfaust_I_standard.yaml --gpu 0
+python train_dfaust_standard.py --conf_file confs/dfaust/dfaust_I_standard.yaml --data_folder path/to/your/rootdatafolder --gpu 0
 ```
 Trained models are saved in the ./logs folder; we use the model of the last epoch during testing to get the numbers reported in the paper.
 #### Testing
@@ -84,11 +84,11 @@ For testing, you can use `tasks/SemSeg/test_dfaust_rot.py` and `tasks/SemSeg/tes
 
 
 ```bash
-python test_dfaust_rot.py --conf_file confs/dfaust/dfaust_test.yaml --gpu 0
+python test_dfaust_rot.py --conf_file confs/dfaust/dfaust_test.yaml --data_folder path/to/your/rootdatafolder --gpu 0
 ```
 
 ```bash
-python test_dfaust_standard.py --conf_file confs/dfaust/dfaust_test.yaml --gpu 0
+python test_dfaust_standard.py --conf_file confs/dfaust/dfaust_test.yaml --data_folder path/to/your/rootdatafolder --gpu 0
 ```
 
 
@@ -101,21 +101,21 @@ Similar to the "human body parts segmentation" experiment, the relevant scripts 
 In `confs/scannet`, the collection of configs used is given. When using rotation, we fix the up vector and only sample one reference frame as described in the paper.
 
 ```bash
-python train_scannet_rot.py -conf_file confs/scannet/dfaust_I_rot_pca_2F.yaml --gpu 0
+python train_scannet_rot.py --conf_file confs/scannet/dfaust_I_rot_pca_2F.yaml --data_folder path/to/your/rootdatafolder --gpu 0
 ```
 
 ```bash
-python train_scannet_standard.py --conf_file confs/scannet/dfaust_I_standard.yaml --gpu 0
+python train_scannet_standard.py --conf_file confs/scannet/dfaust_I_standard.yaml --data_folder path/to/your/rootdatafolder --gpu 0
 ```
 #### Testing
 The following commands are examples of how to use the test scripts. Please make sure to use the right config with the right model. For example,  "I_SO2" means it expects a model that was trained without any rot augmentation and it will be tested with augmentation.
 
 ```bash
-python test_scannet_rot.py --conf_file confs/scannet/scannet20_test_pca_I_SO2.yaml --saved_model path_to_your saved_rot_equ_model.pth --gpu 0 --save_output
+python test_scannet_rot.py --conf_file confs/scannet/scannet20_test_pca_I_SO2.yaml --data_folder path/to/your/rootdatafolder --saved_model path_to_your saved_rot_equ_model.pth --gpu 0 --save_output
 ```
 
 ```bash
-python test_scannet_standard.py --conf_file confs/scannet/scannet20_test_standard_I_SO2.yaml --saved_model path_to_your_saved_standard_model.pth --gpu 0 --save_output
+python test_scannet_standard.py --conf_file confs/scannet/scannet20_test_standard_I_SO2.yaml --data_folder path/to/your/rootdatafolder --saved_model path_to_your_saved_standard_model.pth --gpu 0 --save_output
 ```
 
 ## 📝 TODOs
