@@ -1,0 +1,9 @@
+Testing:
+    num_epochs : 50
+    batch_size : 48
+
+Dataset:
+    dataset : 'modelnet40'
+    num_points: 4096
+    test_aug_file : 'confs.MN40_DS_Aug_test_rot3D'
+    

@@ -43,6 +43,8 @@ A description of how to replicate the experiments from the paper is given below.
 
 We are using weights\&biases; if you don't want to or cannot use it, simply remove all wandb-related stuff in the train files. If you use it, please specify your parameters in the wandb.init(...) function (in the train files).
 
+The trained models are saved under the path specified in the config under "Training -> log_folder".
+
 ### Human Body Parts Segmentation
 Train and test scripts, as well as configs, are saved under `tasks/SemSeg` and denoted with `dfaust`.
 #### Dataset
@@ -68,7 +70,7 @@ We use the same preprocessing strategy as [ArtEq](https://github.com/HavenFeng/A
 #### Training
 To train the rot. equivariant or standard model use the scripts `tasks/SemSeg/train_dfaust_rot.py` or `tasks/SemSeg/train_dfaust_standard.py`, respectively. An example is given here:
 ```bash
-python train_dfaust_rot.py -conf_file confs/dfaust/dfaust_I_rot_pca_2F.yaml --data_folder path/to/your/rootdatafolder --gpu 0
+python train_dfaust_rot.py --conf_file confs/dfaust/dfaust_I_rot_pca_2F.yaml --data_folder path/to/your/rootdatafolder --gpu 0
 ```
 
 ```bash
@@ -115,11 +117,39 @@ python test_scannet_rot.py --conf_file confs/scannet/scannet20_test_pca_I_SO2.ya
 python test_scannet_standard.py --conf_file confs/scannet/scannet20_test_standard_I_SO2.yaml --data_folder path/to/your/rootdatafolder --saved_model path_to_your_saved_standard_model.pth --gpu 0 --save_output
 ```
 
+### Point Cloud Classification
+Train and test scripts, as well as configs, are saved under `tasks/Classification`.
+#### Dataset
+We use the resampled ModelNet40 dataset provided in [PointNet++](https://github.com/charlesq34/pointnet2).
+
+#### Training
+Similar to the segmentation experiments, the relevant scripts are `tasks/Classification/train_rot.py` and `tasks/Classification/train_standard.py`. 
+In `confs`, sample configs used are given. 
+
+```bash
+python train_rot.py --conf_file confs/modelnet40_pca_2F.yaml --data_folder path/to/your/rootdatafolder --gpu 0
+```
+
+```bash
+python train_standard.py --conf_file confs/modelnet40_standard.yaml --data_folder path/to/your/rootdatafolder --gpu 0
+```
+#### Testing
+For testing, you can use `tasks/Classification/test_rot.py` and `tasks/Classification/test_standard.py` and the `confs/modelnet40_test_rot.yaml` and `confs/modelnet40_test_standard.yaml` configs. You can specify the model(s) and number of frames to use for testing in those files (around line 185 or 198) by changing the lists
+`model_paths =  ["path to your model dir/model_epoch_500.pth"]` and `n_frames_testing = [2]`. Then run e.g.:
+
+```bash
+python test_rot.py --conf_file confs/modelnet40_test_rot.yaml --data_folder path/to/your/rootdatafolder --gpu 0
+```
+
+```bash
+python test_standard.py --conf_file confs/modelnet40_test_standard.yamll --data_folder path/to/your/rootdatafolder --gpu 0
+```
+
 ## 📝 TODOs
 - [x] general code release
 - [x] DFAUST train/test scripts and configs
 - [x] ScanNet train/test scripts and configs
-- [] Modelnet train/test scripts and configs
+- [x] Modelnet train/test scripts and configs
 
 ## 📚 BibTeX
 If you find our code or paper useful, please cite:

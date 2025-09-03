@@ -447,7 +447,7 @@ if __name__ == "__main__":
         default="/data/lweijler/SE3Conv3D/dfaust",
         help="Path to preprocessed data folder (default: /data/lweijler/SE3Conv3D/dfaust)",
     )
-    parser.add_argument("--gpu", type=int, default=2, help="GPU Id (default: 0)")
+    parser.add_argument("--gpu", type=int, default=0, help="GPU Id (default: 0)")
 
     parser.add_argument(
         "--resume",

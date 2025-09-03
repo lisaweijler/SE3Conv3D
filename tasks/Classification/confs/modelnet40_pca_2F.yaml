@@ -1,0 +1,36 @@
+Training:
+    log_folder: './logs/mn40_I_2_frame_pca_rot_equiv_gelu16_ResFormer_0.2dropout'
+    num_epochs : 500
+    batch_size : 12
+    weight_decay : 0.0001
+    max_lr : 0.01
+    div_factor : 100.0
+    final_div_factor: 10000.0
+    pct_start : 0.02
+    clip_grads : 100.0
+    label_smoothing: 0.2
+    save_models_frequency : 20
+    val_freq : 5
+
+Dataset:
+    dataset : 'modelnet40'
+    num_points: 4096
+    train_aug_file : 'confs.MN40_no_rot_DS_Aug'
+    test_aug_file : 'confs.MN40_DS_Aug_test_rot3D'
+    
+Model:
+    model: ClassNetRotEquivMLPGELU19Former
+    max_drop_path : 0.2
+    init_subsample: 0.05
+    grid_subsamples: [0.05, 0.1, 0.2, 0.3, 0.4]
+    RefFrames:
+        pca: True
+        neigh_method: 'knn'
+        neigh_kwargs:
+            neigh_k: 16
+        fixed_axis: False
+        train_n_frames: 2
+        test_n_frames: 2
+
+
+    

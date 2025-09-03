@@ -186,6 +186,12 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "--saved_model",
+        default="confs/dfaust/dfaust_test.yaml",
+        help="Configuration file (default: confs/dfaust/dfaust_test.yaml)",
+    )
+
+    parser.add_argument(
         "--data_folder",
         default="/data/lweijler/SE3Conv3D/dfaust",
         help="Path to preprocessed data folder (default: /data/lweijler/SE3Conv3D/dfaust)",
