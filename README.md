@@ -45,7 +45,7 @@ We are using weights\&biases; if you don't want to or cannot use it, simply remo
 
 The trained models are saved under the path specified in the config under "Training -> log_folder".
 
-### Human Body Parts Segmentation
+### 💫 Human Body Parts Segmentation
 Train and test scripts, as well as configs, are saved under `tasks/SemSeg` and denoted with `dfaust`.
 #### Dataset
 For training and testing, we use two subsets of the [AMASS meta-dataset](https://amass.is.tue.mpg.de/index.html), provided by the [ArtEq](https://github.com/HavenFeng/ArtEq/tree/726287fcba0b8a1306b4370ec91661e236eb1909) repository. The data can be downloaded from [here](https://download.is.tue.mpg.de/download.php?domain=arteq&sfile=data.zip&resume=1); note that you first have to create an account at https://arteq.is.tue.mpg.de/.
@@ -91,7 +91,7 @@ python test_dfaust_standard.py --conf_file confs/dfaust/dfaust_test.yaml --data_
 ```
 
 
-### Scene understanding 
+### 💫 Scene understanding 
 Train and test scripts, as well as configs, are saved under `tasks/SemSeg` and denoted with `scannet`.
 #### Dataset
 We use the [ScanNet](https://github.com/ScanNet/ScanNet) dataset segmenting into 20 classes. 
@@ -117,7 +117,7 @@ python test_scannet_rot.py --conf_file confs/scannet/scannet20_test_pca_I_SO2.ya
 python test_scannet_standard.py --conf_file confs/scannet/scannet20_test_standard_I_SO2.yaml --data_folder path/to/your/rootdatafolder --saved_model path_to_your_saved_standard_model.pth --gpu 0 --save_output
 ```
 
-### Point Cloud Classification
+### 💫 Point Cloud Classification
 Train and test scripts, as well as configs, are saved under `tasks/Classification`.
 #### Dataset
 We use the resampled ModelNet40 dataset provided in [PointNet++](https://github.com/charlesq34/pointnet2).
